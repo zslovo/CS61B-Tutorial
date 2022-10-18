@@ -1,6 +1,6 @@
 package IntList;
 
-public class IntListExercises {
+public class    IntListExercises {
 
     /**
      * Part A: (Buggy) mutative method that adds a constant C to each
