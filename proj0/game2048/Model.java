@@ -224,7 +224,7 @@ public class Model extends Observable {
                     }
 
                     //West
-                    if(col_west < 3)
+                    if(col_west <= 3)
                     {
                         if (value == b.tile(i,col_west).value())
                         {
