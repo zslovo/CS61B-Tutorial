@@ -164,7 +164,7 @@ public class Model extends Observable {
                 if(null_or_value != null)
                 {
                     int t = b.tile(i, j).value();
-                    if(t != MAX_PIECE)
+                    if(t == MAX_PIECE)
                     {
                         return true;
                     }
