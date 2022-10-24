@@ -195,35 +195,42 @@ public class Model extends Observable {
                     int value = b.tile(i, j).value();
                     int row_north = i - 1, row_south = i + 1;
                     int col_east = j -1, col_west = j + 1;
-                    if (row_north < 0 || col_east < 0)
+                    //North
+                    if(row_north >= 0)
                     {
-                        continue;
-                    }
-                    if (row_south > 3 || col_west > 3)
-                    {
-                        continue;
+                        if (value == b.tile(row_north,j).value())
+                        {
+                            return true;
+                        }
                     }
 
-                    //North
-                    if (value == b.tile(row_north,j).value())
-                    {
-                        return true;
-                    }
                     //South
-                    if (value == b.tile(row_south,j).value())
+                    if(row_south <= 3)
                     {
-                        return true;
+                        if (value == b.tile(row_south,j).value())
+                        {
+                            return true;
+                        }
                     }
+
                     //East
-                    if (value == b.tile(i,col_east).value())
+                    if(col_east >= 0)
                     {
-                        return true;
+                        if (value == b.tile(i,col_east).value())
+                        {
+                            return true;
+                        }
                     }
+
                     //West
-                    if (value == b.tile(i,col_west).value())
+                    if(col_west <= 3)
                     {
-                        return true;
+                        if (value == b.tile(i,col_west).value())
+                        {
+                            return true;
+                        }
                     }
+
                 }
             }
         }
