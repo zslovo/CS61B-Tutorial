@@ -94,6 +94,9 @@ public class Model extends Observable {
         setChanged();
     }
 
+    public class HelperMethod {
+
+    }
     /** Tilt the board toward SIDE. Return true iff this changes the board.
      *
      * 1. If two Tile objects are adjacent in the direction of motion and have
@@ -109,10 +112,34 @@ public class Model extends Observable {
     public boolean tilt(Side side) {
         boolean changed;
         changed = false;
+        if(side == Side.NORTH) {
+            for(int col = 0; col <= 3; col += 1)
+            {
+                for (int row = 2; row >= 0; row -= 1) //Ignore the number of row 3
+                {
+                    Tile t = board.tile(col, row);
+                    Tile t_upper = board.tile(col, row + 1);
+                    if (atLeastOneMoveExists(board))
+                    {
+                        if(t_upper != null)
+                        {
+                            if(t_upper.value() == t.value())
+                            {
+                                t_upper.merge(col, row + 1, t);
+                            }
 
-        // TODO: Modify this.board (and perhaps this.score) to account
-        // for the tilt to the Side SIDE. If the board changed, set the
-        // changed local variable to true.
+                        }
+                        else
+                        {
+                            t_upper.merge(col, row + 1, t);
+
+                        }
+                    }
+
+
+                }
+            }
+        }
 
         checkGameOver();
         if (changed) {
