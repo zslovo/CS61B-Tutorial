@@ -5,7 +5,7 @@ import java.util.Observable;
 
 
 /** The state of a game of 2048.
- *  @author TODO: YOUR NAME HERE
+ *  @author TODO: zslovo
  */
 public class Model extends Observable {
     /** Current contents of the board. */
@@ -94,9 +94,6 @@ public class Model extends Observable {
         setChanged();
     }
 
-    public class HelperMethod {
-
-    }
     /** Tilt the board toward SIDE. Return true iff this changes the board.
      *
      * 1. If two Tile objects are adjacent in the direction of motion and have
@@ -110,37 +107,25 @@ public class Model extends Observable {
      *    and the trailing tile does not.
      * */
     public boolean tilt(Side side) {
-        boolean changed;
-        changed = false;
+        boolean merge_or_not = false;
+        boolean changed = false;
         if(side == Side.NORTH) {
             for(int col = 0; col <= 3; col += 1)
             {
                 for (int row = 2; row >= 0; row -= 1) //Ignore the number of row 3
                 {
-                    Tile t = board.tile(col, row);
-                    Tile t_upper = board.tile(col, row + 1);
-                    if (atLeastOneMoveExists(board))
+                    Tile t = tile(col, row);
+                    if(t == null) {continue;}
+
+                    for (int blocks = 1;blocks <=3;blocks++)
                     {
-                        if(t_upper != null)
-                        {
-                            if(t_upper.value() == t.value())
-                            {
-                                t_upper.merge(col, row + 1, t);
-                            }
-
-                        }
-                        else
-                        {
-                            t_upper.merge(col, row + 1, t);
-
-                        }
+                        if(row + blocks > 3) {break;}
+                        Tile t_upper = tile(col, row);
                     }
-
 
                 }
             }
         }
-
         checkGameOver();
         if (changed) {
             setChanged();
