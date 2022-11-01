@@ -111,15 +111,21 @@ public class Model extends Observable {
         if(side == Side.NORTH) {
             for(int col = 0; col <= 3; col += 1)
             {
-                for (int row = 2,step = 0; row >= 0; row -= 1)
+                int merge_value = 1;
+                for (int row = 2; row >= 0; row -= 1)
                 {
-                    int merge = 0;
+
+                    int step = 0;
                     Tile t = tile(col, row);
+
                     if(t == null) {continue;}
+
                     for (int blocks = 1; blocks <=3; blocks++)
                     {
                         if((row + blocks) > 3) {break;}
+
                         Tile t_upper = tile(col, row + blocks);
+
                         if(t_upper == null)
                         {
                             step += 1;
@@ -130,17 +136,27 @@ public class Model extends Observable {
                             if(t_upper.value() == t.value())
                             {
                                 step += 1;
-                                merge += 1;
                             }
                             break;
                         }
                     }
                     if(step > 0)
                     {
-                        board.move(col, row + step, t);
+                        if(merge_value == t.value())
+                        {
+                            boolean merge_or_not = board.move(col, row + step - 1, t);
+                            changed = true;
+                            break;
+                        }
+                        boolean merge_or_not = board.move(col, row + step, t);
                         changed = true;
-                        score += t.value();
-                        merge = 1;
+
+                        //whether tilt changes, if it changes, score changes
+                        if(merge_or_not == true)
+                        {
+                            merge_value = 2 * t.value();
+                            score += merge_value;
+                        }
                     }
 
                 }
