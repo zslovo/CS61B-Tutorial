@@ -107,20 +107,40 @@ public class Model extends Observable {
      *    and the trailing tile does not.
      * */
     public boolean tilt(Side side) {
-        boolean merge_or_not = false;
         boolean changed = false;
         if(side == Side.NORTH) {
             for(int col = 0; col <= 3; col += 1)
             {
-                for (int row = 2; row >= 0; row -= 1) //Ignore the number of row 3
+                for (int row = 2,step = 0; row >= 0; row -= 1)
                 {
+                    int merge = 0;
                     Tile t = tile(col, row);
                     if(t == null) {continue;}
-
-                    for (int blocks = 1;blocks <=3;blocks++)
+                    for (int blocks = 1; blocks <=3; blocks++)
                     {
-                        if(row + blocks > 3) {break;}
-                        Tile t_upper = tile(col, row);
+                        if((row + blocks) > 3) {break;}
+                        Tile t_upper = tile(col, row + blocks);
+                        if(t_upper == null)
+                        {
+                            step += 1;
+                        }
+                        else
+                        {
+
+                            if(t_upper.value() == t.value())
+                            {
+                                step += 1;
+                                merge += 1;
+                            }
+                            break;
+                        }
+                    }
+                    if(step > 0)
+                    {
+                        board.move(col, row + step, t);
+                        changed = true;
+                        score += t.value();
+                        merge = 1;
                     }
 
                 }
