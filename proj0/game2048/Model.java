@@ -94,6 +94,61 @@ public class Model extends Observable {
         setChanged();
     }
 
+    public boolean helpermethod() {
+        boolean changed = false;
+        for(int col = 0; col <= 3; col += 1)
+        {
+            int merge_value = 1;
+            for (int row = 2; row >= 0; row -= 1)
+            {
+
+                int step = 0;
+                Tile t = tile(col, row);
+
+                if(t == null) {continue;}
+
+                for (int blocks = 1; blocks <=3; blocks++)
+                {
+                    if((row + blocks) > 3) {break;}
+
+                    Tile t_upper = tile(col, row + blocks);
+
+                    if(t_upper == null)
+                    {
+                        step += 1;
+                    }
+                    else
+                    {
+
+                        if(t_upper.value() == t.value())
+                        {
+                            step += 1;
+                        }
+                        break;
+                    }
+                }
+                if(step > 0)
+                {
+                    if(merge_value == t.value())
+                    {
+                        boolean merge_or_not = board.move(col, row + step - 1, t);
+                        changed = true;
+                        break;
+                    }
+                    boolean merge_or_not = board.move(col, row + step, t);
+                    changed = true;
+
+                    //whether tilt changes, if it changes, score changes
+                    if(merge_or_not == true)
+                    {
+                        merge_value = 2 * t.value();
+                        score += merge_value;
+                    }
+                }
+            }
+        }
+        return changed;
+    }
     /** Tilt the board toward SIDE. Return true iff this changes the board.
      *
      * 1. If two Tile objects are adjacent in the direction of motion and have
@@ -109,58 +164,13 @@ public class Model extends Observable {
     public boolean tilt(Side side) {
         boolean changed = false;
         if(side == Side.NORTH) {
-            for(int col = 0; col <= 3; col += 1)
-            {
-                int merge_value = 1;
-                for (int row = 2; row >= 0; row -= 1)
-                {
-
-                    int step = 0;
-                    Tile t = tile(col, row);
-
-                    if(t == null) {continue;}
-
-                    for (int blocks = 1; blocks <=3; blocks++)
-                    {
-                        if((row + blocks) > 3) {break;}
-
-                        Tile t_upper = tile(col, row + blocks);
-
-                        if(t_upper == null)
-                        {
-                            step += 1;
-                        }
-                        else
-                        {
-
-                            if(t_upper.value() == t.value())
-                            {
-                                step += 1;
-                            }
-                            break;
-                        }
-                    }
-                    if(step > 0)
-                    {
-                        if(merge_value == t.value())
-                        {
-                            boolean merge_or_not = board.move(col, row + step - 1, t);
-                            changed = true;
-                            break;
-                        }
-                        boolean merge_or_not = board.move(col, row + step, t);
-                        changed = true;
-
-                        //whether tilt changes, if it changes, score changes
-                        if(merge_or_not == true)
-                        {
-                            merge_value = 2 * t.value();
-                            score += merge_value;
-                        }
-                    }
-
-                }
-            }
+            changed = helpermethod();
+        }
+        else
+        {
+            board.setViewingPerspective(side);
+            changed = helpermethod();
+            board.setViewingPerspective(Side.NORTH);
         }
         checkGameOver();
         if (changed) {
@@ -230,9 +240,9 @@ public class Model extends Observable {
      */
     public static boolean atLeastOneMoveExists(Board b)
     {
-        for (int i = 0; i < b.size(); i++)
+        for (int i = 0; i < 4; i++)
         {
-            for (int j = 0; j < b.size(); j++)
+            for (int j = 0; j < 4; j++)
             {
                 Tile null_or_value = b.tile(i, j);
                 if (null_or_value == null)
@@ -247,7 +257,11 @@ public class Model extends Observable {
                     //North
                     if(row_north >= 0)
                     {
-                        if (value == b.tile(row_north,j).value())
+                        if (b.tile(row_north,j) == null)
+                        {
+                            return true;
+                        }
+                        else if(b.tile(row_north, j).value() == value)
                         {
                             return true;
                         }
@@ -256,7 +270,11 @@ public class Model extends Observable {
                     //South
                     if(row_south <= 3)
                     {
-                        if (value == b.tile(row_south,j).value())
+                        if(b.tile(row_south,j) == null)
+                        {
+                            return true;
+                        }
+                        else if (value == b.tile(row_south,j).value())
                         {
                             return true;
                         }
@@ -265,7 +283,11 @@ public class Model extends Observable {
                     //East
                     if(col_east >= 0)
                     {
-                        if (value == b.tile(i,col_east).value())
+                        if(b.tile(i,col_east) == null)
+                        {
+                            return  true;
+                        }
+                        else if (value == b.tile(i,col_east).value())
                         {
                             return true;
                         }
@@ -274,7 +296,11 @@ public class Model extends Observable {
                     //West
                     if(col_west <= 3)
                     {
-                        if (value == b.tile(i,col_west).value())
+                        if(b.tile(i,col_west) == null)
+                        {
+                            return true;
+                        }
+                        else if (value == b.tile(i,col_west).value())
                         {
                             return true;
                         }
