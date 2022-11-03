@@ -1,4 +1,5 @@
 package timingtest;
+import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.Stopwatch;
 
 /**
@@ -6,7 +7,7 @@ import edu.princeton.cs.algs4.Stopwatch;
  */
 public class TimeSLList {
     private static void printTimingTable(AList<Integer> Ns, AList<Double> times, AList<Integer> opCounts) {
-        System.out.printf("%12s %12s %12s %12s\n", "N", "time (s)", "# ops", "microsec/op");
+        System.out.printf("%12s %12s %12s %12s\n", "N", "time (s)", "# ops", "microsec/op"); //Basic information
         System.out.printf("------------------------------------------------------------\n");
         for (int i = 0; i < Ns.size(); i += 1) {
             int N = Ns.get(i);
@@ -17,12 +18,32 @@ public class TimeSLList {
         }
     }
 
+    public static double helpermethod(int i){
+        SLList CreateNewList = new SLList<Integer>();
+        for(int j = 0; j < i; j++)
+        {
+            CreateNewList.addLast(1);
+        }
+        Stopwatch sw = new Stopwatch();
+        CreateNewList.getLast();
+        return sw.elapsedTime();
+    }
     public static void main(String[] args) {
         timeGetLast();
     }
 
-    public static void timeGetLast() {
-        // TODO: YOUR CODE HERE
-    }
+    public static void timeGetLast()
+    {
+        AList n_storage = new AList<Integer>();
+        AList seconds_storage = new AList<Double>();
+        AList operations_storage = new AList<Integer>();
 
+        for(int i = 1000, j = 0; j < 8; j++, i*=2)
+        {
+            n_storage.addLast(i);
+            seconds_storage.addLast(helpermethod(i));
+            operations_storage.addLast(10000);
+        }
+        printTimingTable(n_storage, seconds_storage, operations_storage);
+    }
 }
