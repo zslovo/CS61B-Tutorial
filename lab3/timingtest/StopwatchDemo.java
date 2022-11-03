@@ -18,6 +18,12 @@ public class StopwatchDemo {
     }
 
     public static void main(String[] args) {
+        /*
+        The way to use stopwatch methods:
+        1.create an object
+        2.create a double type variable
+        3.invoke the "object.elapsedTime()" method
+         */
         Stopwatch sw = new Stopwatch();
         int fib41 = fib(41);
         double timeInSeconds = sw.elapsedTime();
