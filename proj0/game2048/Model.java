@@ -93,26 +93,35 @@ public class Model extends Observable {
         checkGameOver();
         setChanged();
     }
-
     public boolean helpermethod() {
         boolean changed = false;
-        for(int col = 0; col <= 3; col += 1)
+        for(int col = 0; col <= 3; col += 1) //Loop of every column
         {
+            /*
+            After two numbers of one column merged
+            if the merged value equals to the other value
+            it won't merge again
+             */
             int merge_value = 1;
-            for (int row = 2; row >= 0; row -= 1)
-            {
 
+            for (int row = 2; row >= 0; row -= 1) //Loop of every row
+            {
+                //Counting Steps
                 int step = 0;
                 Tile t = tile(col, row);
-
-                if(t == null) {continue;}
+                if(t == null) {continue;}//0(null) won't move
 
                 for (int blocks = 1; blocks <=3; blocks++)
                 {
-                    if((row + blocks) > 3) {break;}
+                    if((row + blocks) > 3) {break;}//out of bounds ==> ending the upper loop
 
                     Tile t_upper = tile(col, row + blocks);
-
+                    /*
+                    There are three conditions
+                    1.t_upper is null ==> t could move 1 step
+                    2.t_upper's value equals to t's value ==> t could move 1 step, and stop here ready merge
+                    3.t_upper's value not equals to t's value ==> won't move
+                     */
                     if(t_upper == null)
                     {
                         step += 1;
@@ -127,10 +136,19 @@ public class Model extends Observable {
                         break;
                     }
                 }
+
+                //Merging/Moving Tilts And Calculating Score
                 if(step > 0)
                 {
+                    //Merge/Move Tilts
                     if(merge_value == t.value())
                     {
+                        /*
+                        The reason why the row value is (row + step - 1)
+                        is that step already been added
+                        and merge already happened once
+                        we need to stop the merging ==> minus 1
+                         */
                         boolean merge_or_not = board.move(col, row + step - 1, t);
                         changed = true;
                         break;
@@ -138,8 +156,9 @@ public class Model extends Observable {
                     boolean merge_or_not = board.move(col, row + step, t);
                     changed = true;
 
-                    //whether tilt changes, if it changes, score changes
-                    if(merge_or_not == true)
+
+                    //Calculate Score
+                    if(merge_or_not == true)//whether tilt changes, if it changes, score changes
                     {
                         merge_value = 2 * t.value();
                         score += merge_value;
