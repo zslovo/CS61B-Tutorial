@@ -20,7 +20,7 @@ public class AList<Item> {
 
     /** Creates an empty list. */
     public AList() {
-        items = (Item[]) new Object[100];
+        items =(Item[]) new Object[100];// items = new int[100]
         size = 0;
     }
 
@@ -33,34 +33,35 @@ public class AList<Item> {
 
     /** Inserts X into the back of the list. */
     public void addLast(Item x) {
-        if (size == items.length) {
-            resize(size + 1);
-        }
-
-        items[size] = x;
-        size = size + 1;
+            if(size == items.length)
+            {
+                resize(size + 1);
+            }
+            items[size] = x;
+            size += 1;
     }
 
     /** Returns the item from the back of the list. */
     public Item getLast() {
-        return items[size - 1];
+            return items[size - 1];
     }
-    /** Gets the ith item in the list (0 is the front). */
+    /** Gets the ith item in the list (0 is the front)
+     ** Which means i could be 0 **/
     public Item get(int i) {
-        return items[i];
+            return items[i];
     }
 
     /** Returns the number of items in the list. */
     public int size() {
-        return size;
+            return size;
     }
 
     /** Deletes item from back of the list and
       * returns deleted item. */
     public Item removeLast() {
-        Item x = getLast();
-        items[size - 1] = null;
-        size = size - 1;
-        return x;
+            Item x  = getLast();
+            items[size - 1] = null;
+            size -= 1;
+            return x;
     }
 }
