@@ -24,8 +24,12 @@ public class TimeSLList {
         {
             CreateNewList.addLast(1);
         }
+
         Stopwatch sw = new Stopwatch();
-        CreateNewList.getLast();
+        for(int z = 0; z < 10000; z++)
+        {
+            CreateNewList.getLast();
+        }
         return sw.elapsedTime();
     }
     public static void main(String[] args) {
@@ -44,6 +48,7 @@ public class TimeSLList {
             seconds_storage.addLast(helpermethod(i));
             operations_storage.addLast(10000);
         }
+
         printTimingTable(n_storage, seconds_storage, operations_storage);
     }
 }
