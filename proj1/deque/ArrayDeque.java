@@ -12,18 +12,27 @@ public class ArrayDeque<Item> {
     }
 
     public void addFirst(Item x) {
-
         items[nextFirst] = x;
-        nextFirst -= 1;
+        if(nextFirst == 0) {
+            nextFirst = items.length -  1;
+        }
+        else {
+            nextFirst -= 1;
+        }
+
         size += 1;
     }
 
     public void addLast(Item x) {
-        if(nextLast == items.length) {nextLast -= items.length;}
         items[nextLast] = x;
-        nextLast += 1;
-        size += 1;
+        if(nextLast == items.length) {
+            nextLast -= items.length;
+        }
+        else {
+            nextLast += 1;
+        }
 
+        size += 1;
 
     }
 
