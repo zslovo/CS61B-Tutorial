@@ -50,8 +50,8 @@ public class LinkedListDeque<Type> {
         }
         else {
             p.next = new StuffNode(p, x, sentinel);
+            sentinel.prev = p.next;
         }
-
         size += 1;
     }
 
@@ -69,10 +69,11 @@ public class LinkedListDeque<Type> {
 
     public void printDeque() {
         StuffNode p = sentinel.next;
-        while (p != null) {
+        while (p.next != sentinel) {
             System.out.print(p.item + " ");
             p = p.next;
         }
+        System.out.print(p.item);
         System.out.println();
     }
 
@@ -89,13 +90,12 @@ public class LinkedListDeque<Type> {
             if(SecondOne == null)
             {
                 sentinel.next = null;
-                return FirstOne.item;
             }
             else{
                 sentinel.next = SecondOne;
                 SecondOne.prev = sentinel;
-                return FirstOne.item;
             }
+            return FirstOne.item;
         }
     }
 
@@ -106,7 +106,8 @@ public class LinkedListDeque<Type> {
             sentinel.prev = Previous;
             Previous.next = sentinel;
             lastOne.next = null;
-            return Previous.item;
+            size -= 1;
+            return lastOne.item;
         }
         return null;
     }
