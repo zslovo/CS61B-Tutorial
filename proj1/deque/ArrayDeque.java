@@ -55,15 +55,21 @@ public class ArrayDeque<Item> {
     }
 
     public Item removeFirst() {
-        Item x = items[0];
-        items [0] = null;
+        if(isEmpty()){
+            return null;
+        }
+        Item x = items[nextFirst + 1];
+        items [nextFirst + 1] = null;
         size -= 1;
         return x;
     }
 
     public Item removeLast() {
-        Item x = items[size - 1];
-        items[size - 1] = null;
+        if(isEmpty()){
+            return null;
+        }
+        Item x = items[nextLast - 1];
+        items[nextLast - 1] = null;
         size -= 1;
         return x;
     }
