@@ -8,7 +8,16 @@ public class ArrayDeque<Item> {
 
     public ArrayDeque() {
         items = (Item[]) new Object[8];
+        nextFirst = 3;
+        nextLast = 4;
         size = 0;
+    }
+
+    public ArrayDeque(Item item) {
+        items[3] = item;
+        size = 1;
+        nextFirst = 2;
+        nextLast = 4;
     }
 
     public void addFirst(Item x) {
@@ -75,7 +84,11 @@ public class ArrayDeque<Item> {
     }
 
     public Item get(int i) {
-        return items[i];
+        if (i < 0 || i > size - 1) {
+            return null;
+        }
+        int itemIndex = nextFirst + 1 + i; //*
+        return items[itemIndex];
     }
 
 }
