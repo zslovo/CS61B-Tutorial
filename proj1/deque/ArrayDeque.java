@@ -3,8 +3,8 @@ package deque;
 public class ArrayDeque<Item> {
     Item[] items;
     int size;
-    int nextFirst = 4;
-    int nextLast = 5;
+    int nextFirst;
+    int nextLast;
 
     public ArrayDeque() {
         items = (Item[]) new Object[8];
@@ -77,7 +77,5 @@ public class ArrayDeque<Item> {
     public Item get(int i) {
         return items[i];
     }
-
-
 
 }
