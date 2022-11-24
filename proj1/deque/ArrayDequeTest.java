@@ -121,4 +121,18 @@ public class ArrayDequeTest {
         lld1.removeFirst();
         lld1.removeLast();
     }
+
+    @Test
+    /*check full add 8 */
+    public void addTest() {
+        ArrayDeque<Integer> lld1 = new ArrayDeque<>();
+
+        lld1.addLast(1);
+        lld1.addLast(1);
+        lld1.addLast(1);
+        lld1.addLast(1);
+        lld1.addLast(1);
+        lld1.addLast(1);
+
+    }
 }

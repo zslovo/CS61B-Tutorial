@@ -22,26 +22,20 @@ public class ArrayDeque<Item> {
 
     public void addFirst(Item x) {
         items[nextFirst] = x;
-        if(nextFirst == 0) {
-            nextFirst = items.length -  1;
-        }
-        else {
-            nextFirst -= 1;
-        }
-
         size += 1;
+        nextFirst -= 1;
+        if(nextFirst == 0) {
+            nextFirst = 7;
+        }
     }
 
     public void addLast(Item x) {
-        if(nextLast == items.length) {
-            nextLast -= items.length;
-            items[nextLast] = x;
-        }
-        else {
-            items[nextLast] = x;
-            nextLast += 1;
-        }
-        size += 1;
+       items[nextLast] = x;
+       size += 1;
+       nextLast += 1;
+       if (nextLast == 8) {
+            nextLast = 0;
+       }
 
     }
 
