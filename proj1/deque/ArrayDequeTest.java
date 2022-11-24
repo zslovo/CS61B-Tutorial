@@ -98,7 +98,7 @@ public class ArrayDequeTest {
     public void emptyNullReturnTest() {
 
 
-        LinkedListDeque<Integer> lld1 = new LinkedListDeque<Integer>();
+        ArrayDeque<Integer> lld1 = new ArrayDeque<>();
 
         boolean passed1 = false;
         boolean passed2 = false;
@@ -108,4 +108,17 @@ public class ArrayDequeTest {
 
     }
 
+    @Test
+    /* check removeTest */
+    public void removeTest() {
+        ArrayDeque<Integer> lld1 = new ArrayDeque<>();
+
+        lld1.addFirst(1);
+        lld1.addFirst(2);
+        lld1.addFirst(3);
+
+        lld1.removeFirst();
+        lld1.removeFirst();
+        lld1.removeLast();
+    }
 }

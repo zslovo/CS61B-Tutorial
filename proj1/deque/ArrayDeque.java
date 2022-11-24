@@ -33,14 +33,14 @@ public class ArrayDeque<Item> {
     }
 
     public void addLast(Item x) {
-        items[nextLast] = x;
         if(nextLast == items.length) {
             nextLast -= items.length;
+            items[nextLast] = x;
         }
         else {
+            items[nextLast] = x;
             nextLast += 1;
         }
-
         size += 1;
 
     }
@@ -70,6 +70,7 @@ public class ArrayDeque<Item> {
         Item x = items[nextFirst + 1];
         items [nextFirst + 1] = null;
         size -= 1;
+        nextFirst += 1;
         return x;
     }
 
@@ -79,6 +80,7 @@ public class ArrayDeque<Item> {
         }
         Item x = items[nextLast - 1];
         items[nextLast - 1] = null;
+        nextLast -= 1;
         size -= 1;
         return x;
     }
